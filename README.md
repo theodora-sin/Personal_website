@@ -46,6 +46,11 @@ Adding a matching set of icon links to GitHub and LinkedIn
 ### Sticky Notes
 This is just a quick coloured note people can jot down and delete; it is saved locally so you can still see your note next time. 
 
+### Serial Monitor:
+It has 4 metrics (CPU,memory, network latency, temperature), it will update constantly, it mixed with occasional system events logged at different severity levels. It also include pause/resume, clear and export to txt.
+
+### QR Code Generator:
+You can type any URL and it will generate a QR code instantly, it include a download button which allow you to download the QR code as png file. 
 
 # Coding Resources
 ## React + Vite
@@ -66,4 +71,4 @@ The React Compiler is not enabled on this template because of its impact on dev 
 If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
 
 # AI Usage:
-I have used Claude AI in debug the code, both syntax and logic error.  The whole website is made by personal experience. The website layout,idea and main coding is come from my idea. 
+I have used Claude AI in debug the code, both syntax and logic error, plus it had been used in css for styling. The whole website is made by personal experience, and figuring the best thing that need for a interactive OS desktop site

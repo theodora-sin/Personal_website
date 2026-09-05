@@ -2,22 +2,25 @@ import { useState, useRef, useEffect } from 'react';
 import Clock from './components/Clock';
 import Dock from './components/Dock';
 import DraggableWindow from './components/DraggableWindow';
-import ContextMenu from './components/ContextMenu';
+import ContextMenu from './components/Context';
 import CommandPalette from './components/CommandPalette';
 import QuickLinks from './components/QuickLinks';
 import DesktopSearch from './components/DesktopSearch';
 import Mascot from './components/Mascot';
-import WorldClockStrip from './components/WorldClockStrip';
-import WeatherPanel from './components/WeatherPanel';
-import TodoPanel from './components/TodoPanel';
-import PlaylistPanel from './components/PlaylistPanel';
-import ProjectsPanel from './components/ProjectsPanel';
-import CalculatorPanel from './components/CalculatorPanel';
-import PomodoroPanel from './components/PomodoroPanel';
-import UnitConverterPanel from './components/UnitConverterPanel';
-import StickyNotesPanel from './components/StickyNotesPanel';
+import WorldClock from './components/WorldClock';
+import Weather from './components/Weather';
+import Todo from './components/Todo';
+import Playlist from './components/Playlist';
+import Projects from './components/Projects';
+import Calculator from './components/Calculator';
+import Pomodoro from './components/Pomodoro';
+import Converter from './components/Converter';
+import StickyNotes from './components/StickyNotes';
+import SerialMonitor from './components/SerialMonitor';
+import QrCode from './components/QrCode';
 import './App.css';
 
+// gradient wallpaper, change it by right click
 const WALLPAPERS = [
   { name: 'Midnight', css: 'radial-gradient(ellipse at top, #1a1a2e, #0d0d17 70%)' },
   { name: 'Void', css: 'linear-gradient(160deg, #000000, #0f0f12)' },
@@ -26,16 +29,19 @@ const WALLPAPERS = [
   { name: 'Sunset', css: 'linear-gradient(135deg, #2d1b2e, #4a2545, #6b2d5c)' },
 ];
 
+// list of app, right click
 const WINDOW_CONFIG = {
-  worldclock: { title: 'World Clock', width: 420, icon: '🕐', Component: WorldClockStrip },
-  weather: { title: 'Weather', width: 340, icon: '🌤️', Component: WeatherPanel },
-  todo: { title: 'To-Do List', width: 480, icon: '📝', Component: TodoPanel },
-  playlist: { title: 'Playlist', width: 360, icon: '🎵', Component: PlaylistPanel },
-  projects: { title: 'Projects', width: 640, icon: '💼', Component: ProjectsPanel },
-  calculator: { title: 'Calculator', width: 300, icon: '🧮', Component: CalculatorPanel },
-  pomodoro: { title: 'Pomodoro Timer', width: 320, icon: '🍅', Component: PomodoroPanel },
-  converter: { title: 'Unit Converter', width: 340, icon: '📐', Component: UnitConverterPanel },
-  stickynotes: { title: 'Sticky Notes', width: 460, icon: '🗒️', Component: StickyNotesPanel },
+  worldclock: { title: 'World Clock', width: 420, icon: '🕐', Component: WorldClock },
+  weather: { title: 'Weather', width: 340, icon: '🌤️', Component: Weather },
+  todo: { title: 'To-Do List', width: 480, icon: '📝', Component: Todo },
+  playlist: { title: 'Playlist', width: 360, icon: '🎵', Component: Playlist },
+  projects: { title: 'Projects', width: 640, icon: '💼', Component: Projects },
+  calculator: { title: 'Calculator', width: 300, icon: '🧮', Component: Calculator },
+  pomodoro: { title: 'Pomodoro Timer', width: 320, icon: '🍅', Component: Pomodoro },
+  converter: { title: 'Unit Converter', width: 340, icon: '📐', Component: Converter },
+  stickynotes: { title: 'Sticky Notes', width: 460, icon: '🗒️', Component: StickyNotes },
+  serial: { title: 'Serial Monitor', width: 380, icon: '📟', Component: SerialMonitor },
+  qrcode: { title: 'QR Code Generator', width: 320, icon: '🔲', Component: QrCode },
 };
 
 const LAYOUT_KEY = 'desktop-layout';
@@ -45,23 +51,27 @@ function loadLayout() {
     const saved = localStorage.getItem(LAYOUT_KEY);
     if (saved) return JSON.parse(saved);
   } catch (err) {
-    // fall back to defaults below
+    // if the saved layout is corrupted, just restart
   }
   return { openWindows: [], wallpaperIndex: 0 };
 }
 
 function App() {
   const initial = loadLayout();
+
   const [openWindows, setOpenWindows] = useState(initial.openWindows || []);
   const [wallpaperIndex, setWallpaperIndex] = useState(initial.wallpaperIndex || 0);
   const [contextMenu, setContextMenu] = useState(null);
   const [paletteOpen, setPaletteOpen] = useState(false);
+
+  // keep track of stacking order,
   const zCounter = useRef(
     initial.openWindows && initial.openWindows.length > 0
       ? Math.max(...initial.openWindows.map((w) => w.zIndex || 10)) + 1
       : 10
   );
 
+  // when user refresh, all data still keep in local
   useEffect(() => {
     localStorage.setItem(LAYOUT_KEY, JSON.stringify({ openWindows, wallpaperIndex }));
   }, [openWindows, wallpaperIndex]);
@@ -70,11 +80,14 @@ function App() {
     setOpenWindows((prev) => {
       const existing = prev.find((w) => w.type === type);
       zCounter.current += 1;
+
+      
       if (existing) {
         return prev.map((w) =>
           w.type === type ? { ...w, zIndex: zCounter.current, minimized: false } : w
         );
       }
+
       return [
         ...prev,
         { id: `${type}-${Date.now()}`, type, zIndex: zCounter.current, minimized: false, position: null, size: null },
@@ -110,10 +123,11 @@ function App() {
   const cycleWallpaper = () => setWallpaperIndex((i) => (i + 1) % WALLPAPERS.length);
 
   const handleDesktopContextMenu = (e) => {
-    e.preventDefault();
+    e.preventDefault(); // stop the browser's own right-click menu from also showing
     setContextMenu({ x: e.clientX, y: e.clientY });
   };
 
+  // Ctrl+K toggles the command palette from anywhere
   useEffect(() => {
     const handleKey = (e) => {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
@@ -125,6 +139,7 @@ function App() {
     return () => window.removeEventListener('keydown', handleKey);
   }, []);
 
+  // right-click menu 
   const dockItems = Object.keys(WINDOW_CONFIG).map((type) => ({
     id: type,
     icon: WINDOW_CONFIG[type].icon,
@@ -172,6 +187,7 @@ function App() {
       {openWindows.map((win, i) => {
         const config = WINDOW_CONFIG[win.type];
         const Component = config.Component;
+
         return (
           <DraggableWindow
             key={win.id}
@@ -212,7 +228,11 @@ function App() {
         />
       )}
 
-      <CommandPalette isOpen={paletteOpen} onClose={() => setPaletteOpen(false)} commands={paletteCommands} />
+      <CommandPalette
+        isOpen={paletteOpen}
+        onClose={() => setPaletteOpen(false)}
+        commands={paletteCommands}
+      />
     </div>
   );
 }

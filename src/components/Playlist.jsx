@@ -1,6 +1,6 @@
 import {useState} from 'react';
 const PLAYLIST_ID = "5V8UiJUbYP6PymyFi1RYj8";
-function PlaylistPanel() {
+function Playlist() {
   const [loadFailed, setLoadFailed] = useState(false);
 
   return (
@@ -25,4 +25,4 @@ function PlaylistPanel() {
   );
 }
 
-export default PlaylistPanel;
+export default Playlist;

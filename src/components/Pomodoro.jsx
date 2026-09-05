@@ -26,7 +26,7 @@ function formatDateLabel(key) {
   return date.toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' });
 }
 
-function PomodoroPanel() {
+function Pomodoro() {
   const [mode, setMode] = useState('focus');
   const [secondsLeft, setSecondsLeft] = useState(MODES.focus.minutes * 60);
   const [running, setRunning] = useState(false);
@@ -173,4 +173,4 @@ function PomodoroPanel() {
   );
 }
 
-export default PomodoroPanel;
+export default Pomodoro;

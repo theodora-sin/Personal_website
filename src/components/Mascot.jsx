@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 
 const IDLE_THRESHOLD = 15000;
 const MASCOT_SWITCH_INTERVAL = 30000;
-const MASCOT_IMAGES= ['/Mascot.png', '/mascot1.png']
+const MASCOT_IMAGES= ['./Mascot.png', './mascot1.png']
 const MESSAGES = [
   "Just chilling here~",
   "Don't forget to check your to-do list!",

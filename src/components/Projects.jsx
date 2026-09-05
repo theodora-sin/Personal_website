@@ -1,6 +1,6 @@
 import {projects} from '../data/projects';
 
-function ProjectsPanel() {
+function Projects() {
   return (
     <div className="projects-grid">
       {projects.map((p) => (
@@ -18,4 +18,4 @@ function ProjectsPanel() {
   );
 }
 
-export default ProjectsPanel;
+export default Projects;

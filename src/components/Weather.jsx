@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-function WeatherPanel() {
+function Weather() {
   const [weather, setWeather] = useState(null);
   const [error, setError] = useState(null);
   const [locationName, setLocationName] = useState('Your Location');
@@ -71,4 +71,4 @@ function WeatherPanel() {
   );
 }
 
-export default WeatherPanel;
+export default Weather;

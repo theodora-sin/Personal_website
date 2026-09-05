@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-function CalculatorPanel() {
+function Calculator() {
   const [tokens, setTokens] = useState(['0']); 
   const [history, setHistory] = useState([]);
   const [showHistory, setShowHistory] = useState(false);
@@ -16,7 +16,7 @@ function CalculatorPanel() {
 
   const lastToken = () => tokens[tokens.length - 1];
   const isOperator = (t) => ['+', '-', '×', '÷'].includes(t);
-
+  //digit input 
   const inputDigit = (digit) => {
     setTokens((prev) => {
       const copy = [...prev];
@@ -31,7 +31,7 @@ function CalculatorPanel() {
       return copy;
     });
   };
-
+ // decimal input
   const inputDecimal = () => {
     setTokens((prev) => {
       const copy = [...prev];
@@ -70,7 +70,7 @@ function CalculatorPanel() {
       return copy;
     });
   };
-
+   //% input
   const percent = () => {
     setTokens((prev) => {
       const copy = [...prev];
@@ -113,6 +113,7 @@ function CalculatorPanel() {
 
   const clearHistory = () => setHistory([]);
 
+  //Simple calculator button
   const buttons = [
     { label: 'C', onClick: clear, className: 'calc-fn' },
     { label: '±', onClick: toggleSign, className: 'calc-fn' },
@@ -139,9 +140,7 @@ function CalculatorPanel() {
     <div className="calculator">
       <div className="calc-top-row">
         <span className="calc-formula">{tokens.join(' ')}</span>
-        <button className="calc-history-toggle" onClick={() => setShowHistory((s) => !s)}>
-          🕘
-        </button>
+        <button className="calc-history-toggle" onClick={() => setShowHistory((s) => !s)}>🕘</button>
       </div>
 
       {showHistory ? (
@@ -177,4 +176,4 @@ function CalculatorPanel() {
   );
 }
 
-export default CalculatorPanel;
+export default Calculator;

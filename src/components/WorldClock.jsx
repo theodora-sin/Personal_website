@@ -26,7 +26,7 @@ function isDaytime(timeZone, now) {
   return hour >= 6 && hour < 18;
 }
 
-function WorldClockStrip() {
+function WorldClock() {
   const [index, setIndex] = useState(0);
   const [now, setNow] = useState(new Date());
   const touchStartX = useRef(null);
@@ -86,4 +86,4 @@ function WorldClockStrip() {
   );
 }
 
-export default WorldClockStrip;
+export default WorldClock;

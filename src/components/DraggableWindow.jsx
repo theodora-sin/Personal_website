@@ -1,16 +1,37 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
-function DraggableWindow({ title, onClose, onFocus,onMinimize, children, width = 420, height =null, zIndex = 10, cascadeIndex = 0, minimized =false, initialPosition = null, initialSize = null, onPositionChange, onSizeChange}) {
-  const [position, setPosition] = useState({ x: null, y: null });
-  const[size, setSize] = useState({width, height});
+function DraggableWindow({
+  title, onClose, onFocus, onMinimize, children,
+  width = 420, height = null, zIndex = 10, cascadeIndex = 0, minimized = false,
+  initialPosition = null, initialSize = null,
+  onPositionChange, onSizeChange,
+}) {
+  const [position, setPosition] = useState(initialPosition || { x: null, y: null });
+  const [size, setSize] = useState(initialSize || { width, height });
   const dragging = useRef(false);
   const resizing = useRef(false);
   const dragOffset = useRef({ x: 0, y: 0 });
-  const resizeStart = useRef ({ x:0, y:0 , width:0 , height:0});
+  const resizeStart = useRef({ x: 0, y: 0, width: 0, height: 0 });
   const latestPosition = useRef(position);
   const latestSize = useRef(size);
 
   const cascade = cascadeIndex * 28;
+  
+  useEffect(() => {
+    if (position.x !== null) {
+      const effectiveWidth = Math.min(size.width, window.innerWidth * 0.92);
+      const maxX = Math.max(10, window.innerWidth - effectiveWidth - 10);
+      const maxY = Math.max(10, window.innerHeight - 80);
+      const clampedX = Math.min(Math.max(position.x, 10), maxX);
+      const clampedY = Math.min(Math.max(position.y, 10), maxY);
+      if (clampedX !== position.x || clampedY !== position.y) {
+        const next = { x: clampedX, y: clampedY };
+        setPosition(next);
+        latestPosition.current = next;
+        if (onPositionChange) onPositionChange(next);
+      }
+    }
+  }, []);
 
   const onMouseDown = (e) => {
     e.preventDefault();
@@ -23,10 +44,7 @@ function DraggableWindow({ title, onClose, onFocus,onMinimize, children, width =
 
   const onMouseMove = (e) => {
     if (!dragging.current) return;
-    const next ={
-      x: e.clientX - dragOffset.current.x,
-      y: e.clientY - dragOffset.current.y,
-    };
+    const next = { x: e.clientX - dragOffset.current.x, y: e.clientY - dragOffset.current.y };
     latestPosition.current = next;
     setPosition(next);
   };
@@ -35,43 +53,43 @@ function DraggableWindow({ title, onClose, onFocus,onMinimize, children, width =
     dragging.current = false;
     document.removeEventListener('mousemove', onMouseMove);
     document.removeEventListener('mouseup', onMouseUp);
-    if(onPositionChange) onPositionChange(latestPosition.current);
+    if (onPositionChange) onPositionChange(latestPosition.current);
   };
 
-  const onResizeMouseDown = (e) =>{
+  const onResizeMouseDown = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    resizing.current =true;
-    resizeStart.current ={
-      x:e.clientX,
-      y:e.clientY,
-      width:size.width,
-      height:size.height || e.currentTarget.parentElement.offsetHeight,
+    resizing.current = true;
+    resizeStart.current = {
+      x: e.clientX,
+      y: e.clientY,
+      width: size.width,
+      height: size.height || e.currentTarget.parentElement.offsetHeight,
     };
     document.addEventListener('mousemove', onResizeMouseMove);
     document.addEventListener('mouseup', onResizeMouseUp);
   };
 
-  const onResizeMouseMove =(e) =>{
-    if(!resizing.current) return;
+  const onResizeMouseMove = (e) => {
+    if (!resizing.current) return;
     const deltaX = e.clientX - resizeStart.current.x;
     const deltaY = e.clientY - resizeStart.current.y;
-    const next ={
+    const next = {
       width: Math.max(280, resizeStart.current.width + deltaX),
       height: Math.max(200, resizeStart.current.height + deltaY),
     };
-    latestSize.current =next;
+    latestSize.current = next;
     setSize(next);
   };
 
-  const onResizeMouseUp = () =>{
-    resizing.current= false;
+  const onResizeMouseUp = () => {
+    resizing.current = false;
     document.removeEventListener('mousemove', onResizeMouseMove);
     document.removeEventListener('mouseup', onResizeMouseUp);
-    if(onSizeChange) onSizeChange(latestSize.current);
-  }
+    if (onSizeChange) onSizeChange(latestSize.current);
+  };
 
-  if(minimized) return null;
+  if (minimized) return null;
 
   const posStyle =
     position.x !== null

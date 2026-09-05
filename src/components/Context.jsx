@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 
-function ContextMenu({ x, y, onClose, items }) {
+function Context({ x, y, onClose, items }) {
   const menuRef = useRef(null);
 
   useEffect(() => {
@@ -34,4 +34,4 @@ function ContextMenu({ x, y, onClose, items }) {
   );
 }
 
-export default ContextMenu;
+export default Context;

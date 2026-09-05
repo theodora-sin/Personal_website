@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 
 const COLORS = ['#fde68a', '#bbf7d0', '#bfdbfe', '#fbcfe8', '#ddd6fe'];
 
-function StickyNotesPanel() {
+function StickyNotes() {
   const [notes, setNotes] = useState([]);
   const hasLoaded = useRef(false);
 
@@ -53,4 +53,4 @@ function StickyNotesPanel() {
   );
 }
 
-export default StickyNotesPanel;
+export default StickyNotes;

@@ -1,5 +1,5 @@
 import {useState, useEffect, useRef} from 'react';
-function DesktopSearch({apps, opOpenApp}) {
+function DesktopSearch({apps, onOpenApp}) {
     const[isOpen, setIsOpen] = useState(false);
     const[query,setQuery] = useState('');
     const inputRef = useRef(null);

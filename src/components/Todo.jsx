@@ -6,7 +6,7 @@ const PRIORITY_CONFIG = {
   high: { color: '#f87171', label: 'High' },
 };
 
-function TodoPanel() {
+function Todo() {
   const [tasks, setTasks] = useState([]);
   const [input, setInput] = useState('');
   const [priority, setPriority] = useState('medium');
@@ -227,4 +227,4 @@ return (
 );
 }
 
-export default TodoPanel;
+export default Todo;

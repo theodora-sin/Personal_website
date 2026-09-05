@@ -26,7 +26,7 @@ function convertTemp(value, from, to) {
   return celsius + 273.15;
 }
 
-function UnitConverterPanel() {
+function Converter() {
   const [category, setCategory] = useState('length');
   const [fromUnit, setFromUnit] = useState('m');
   const [toUnit, setToUnit] = useState('km');
@@ -98,4 +98,4 @@ function UnitConverterPanel() {
   );
 }
 
-export default UnitConverterPanel;
+export default Converter;
