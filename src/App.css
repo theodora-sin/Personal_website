@@ -7,9 +7,9 @@
   --success: #6ee7b7;
   --warning: #fbbf24;
   --danger: #f87171;
-  --shadow-sm: 0 6px 18px #0000002e
-  --border : #FFFFFF14
-  --subtle: #777e91
+  --shadow-sm: 0 6px 18px #0000002e;
+  --border : #FFFFFF14;
+  --subtle: #777e91;
 }
 
 * {margin: 0;padding: 0;box-sizing: border-box;}
