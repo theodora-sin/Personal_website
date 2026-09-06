@@ -971,6 +971,7 @@
 
 /* Mobile */
 @media (max-width: 600px) {
+  /*dock */
   .dock {
     left: 12px;
     gap: 8px;
@@ -985,10 +986,12 @@
     height: 44px;
     border-radius: 10px;
   }
+  /* Search */
   .desktop-search {
     top: 14px;
     right: 14px;
   }
+  /* Windows */
   .draggable-window {
     position: fixed !important;
     left: 4vw !important;
@@ -1005,9 +1008,11 @@
     flex: 1;
     overflow-y: auto;
     max-height: calc(82vh - 50px);
+    padding:20px;
   }
   .resize-handle {display: none;}
-  .window-titlebar {cursor: default;}
+  .window-titlebar {cursor: default; padding: 12px 15px;}
+  /* Taskbar */
   .taskbar {
     bottom: 12px;
     gap: 6px;
@@ -1018,7 +1023,9 @@
     padding: 7px 12px;
     white-space: nowrap;
   }
+  /* Sticky notes */
   .sticky-grid {grid-template-columns: 1fr;}
   .sticky-empty {grid-column: span 1;}
+   /* Serial */
   .serial-readouts {grid-template-columns: repeat(2, 1fr);}
 }
