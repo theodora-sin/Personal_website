@@ -11,6 +11,7 @@
   --success: #6ee7b7;
   --warning: #fbbf24;
   --danger: #f87171;
+  --shadow-sm: 0 6px 18px #0000002e
 }
 
 * {margin: 0;padding: 0;box-sizing: border-box;}
@@ -41,18 +42,19 @@
 }
 .clock-widget .time {
   font-size: clamp(72px, 6vw, 96px);
-  font-weight: 200;
-  letter-spacing: 2px;
+  font-weight: 300;
+  letter-spacing: 1px;
   font-variant-numeric: tabular-nums;
   text-shadow: 4px 20px #080a0f;
   white-space: nowrap;
-  line-height: 1.5;
+  line-height: 1.2;
 }
 .clock-widget .date {
-  font-size: 16px;
+  margin-top:8px;
+  font-size: 14px;
   font-weight: 600;
   letter-spacing: 1.5px;
-  opacity: 0.6;
+  opacity: 0.7;
   text-transform: uppercase;
 }
 /*World Clock*/
@@ -61,16 +63,14 @@
   align-items: center;
   gap: 12px;
   color: white;
-  font-family: 'Segoe UI', system-ui, sans-serif;
+  font-family: "Inter','Segoe UI', system-ui, sans-serif;
   position: relative;
 }
 .world-clock-panel .arrow {
-  background: none;
-  border: none;
   color: white;
   font-size: 24px;
   cursor: pointer;
-  padding: 0 6px;
+  padding: 0.6px;
   line-height: 1;
   opacity: 0.7;
 }
@@ -79,7 +79,7 @@
   font-size: 0.85rem;
   font-weight: 600;
   letter-spacing: 0.5px;
-  opacity: 0.75;
+  opacity: 0.8;
   text-transform: uppercase;
   white-space: nowrap;
 }
@@ -91,17 +91,17 @@
   margin-top: 8px;
 }
 .offset-badge {
-  font-size: 0.7rem;
+  font-size: 12px;
   background: #292c38;
   padding: 3px 8px;
   border-radius: 6px;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.4px;
 }
 .relative-label { font-size: 14px; opacity: 0.5; }
 /* Message under the world clock card */
 .dots {
   position: absolute;
-  bottom: -18px;
+  bottom: -20px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -115,7 +115,7 @@
   cursor: pointer;
   transition: all 0.2s;
 }
-.dot.active { background: white; width: 16px; border-radius: 3px; }
+.dot.active { background: white; width: 16px; border-radius: 4px; }
 
 /*Left side icons*/
 .dock {
@@ -125,7 +125,7 @@
   transform: translateY(-50%);
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
   z-index: 20;
 }
 .dock-icon-wrap {
@@ -138,11 +138,12 @@
   position: static;
   width: 52px;
   height: 52px;
-  border-radius: 12px;
+  border-radius: 15px;
   background: #252834;
   border: 1px solid #292c38;
   font-size: 1.5rem;
   cursor: pointer;
+  box-shadow:var(--shadow-sm)
   transition: transform 0.2s, background 0.2s;
 }
 .dock-icon:hover { background: #3b3e4c; transform: scale(1.08); }
