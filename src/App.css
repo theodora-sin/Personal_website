@@ -1023,3 +1023,4 @@
   .sticky-grid {grid-template-columns: 1fr;}
   .sticky-empty {grid-column: span 1;}
   .serial-readouts {grid-template-columns: repeat(2, 1fr);}
+}
