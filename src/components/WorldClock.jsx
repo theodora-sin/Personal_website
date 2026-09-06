@@ -1,14 +1,16 @@
 import { useState, useEffect, useRef } from 'react';
 import { cities } from '../data/cities';
 
-function getOffsetLabel(timeZone, now) {
+/*UTC time zone*/
+function Offset(timeZone, now) {
   const utcDate = new Date(now.toLocaleString('en-US', { timeZone: 'UTC' }));
   const tzDate = new Date(now.toLocaleString('en-US', { timeZone }));
   const diffHours = Math.round((tzDate - utcDate) / (1000 * 60 * 60));
   return diffHours >= 0 ? `UTC+${diffHours}` : `UTC${diffHours}`;
 }
 
-function getRelativeLabel(timeZone, now) {
+/*compare UTC timezone*/
+function Relative(timeZone, now) {
   const localTZ = Intl.DateTimeFormat().resolvedOptions().timeZone;
   const localDate = new Date(now.toLocaleString('en-US', { timeZone: localTZ }));
   const tzDate = new Date(now.toLocaleString('en-US', { timeZone }));
@@ -18,7 +20,8 @@ function getRelativeLabel(timeZone, now) {
   return `${Math.abs(diffHours)}h ${direction} of you`;
 }
 
-function isDaytime(timeZone, now) {
+/*day vs night time */
+function Daytime(timeZone, now) {
   const hour = parseInt(
     now.toLocaleTimeString('en-US', { timeZone, hour: '2-digit', hour12: false }),
     10
@@ -39,6 +42,7 @@ function WorldClock() {
   const goNext = () => setIndex((i) => (i + 1) % cities.length);
   const goPrev = () => setIndex((i) => (i - 1 + cities.length) % cities.length);
 
+  /*arrow bar, change location*/
   const handleTouchStart = (e) => { touchStartX.current = e.touches[0].clientX; };
   const handleTouchEnd = (e) => {
     if (touchStartX.current === null) return;
@@ -47,17 +51,18 @@ function WorldClock() {
     if (deltaX > 50) goPrev();
     touchStartX.current = null;
   };
-
+/*time*/
   const city = cities[index];
   const timeString = now.toLocaleTimeString('en-US', {
     timeZone: city.timeZone, hour: '2-digit', minute: '2-digit', second: '2-digit',
   });
+  /*date*/
   const dateString = now.toLocaleDateString('en-US', {
     timeZone: city.timeZone, weekday: 'long', month: 'long', day: 'numeric',
   });
-  const offsetLabel = getOffsetLabel(city.timeZone, now);
-  const relativeLabel = getRelativeLabel(city.timeZone, now);
-  const daytime = isDaytime(city.timeZone, now);
+  const offsetLabel = Offset(city.timeZone, now);
+  const relativeLabel =Relative(city.timeZone, now);
+  const daytime = Daytime(city.timeZone, now);
 
   return (
     <div className="world-clock-panel" onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>

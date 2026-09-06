@@ -1,15 +1,15 @@
 import { useState, useEffect, useRef } from 'react';
 
 const IDLE_THRESHOLD = 15000;
-const MASCOT_SWITCH_INTERVAL = 30000;
+const MASCOT_SWITCH_INTERVAL = 30000; /*30 seconds*/
 const MASCOT_IMAGES= ['./Mascot.png', './mascot1.png']
 const MESSAGES = [
   "Just chilling here~",
   "Don't forget to check your to-do list!",
-  "It's a good time for a break ☕",
-  "Let interest take over curriculum",
+  "It's a good time for a break ",
+  "Let your interest take over curriculum",
   "Make your dream comes true!"
-];
+];/*messages*/
 
 function Mascot() {
   const [isIdle, setIsIdle] = useState(false);
@@ -18,7 +18,8 @@ function Mascot() {
   const idleTimer = useRef(null);
   const bubbleTimer = useRef(null);
 
-  const resetIdleTimer = () => {
+  /*30 seconds timer*/
+  const reset = () => {
     setIsIdle(false);
     setBubble(null);
     clearTimeout(idleTimer.current);
@@ -27,24 +28,24 @@ function Mascot() {
   };
 
   useEffect(() => {
-    resetIdleTimer();
+    reset();
     const events = ['mousemove', 'mousedown', 'keydown', 'touchstart'];
-    events.forEach((ev) => window.addEventListener(ev, resetIdleTimer));
+    events.forEach((ev) => window.addEventListener(ev, reset));
     return () => {
-      events.forEach((ev) => window.removeEventListener(ev, resetIdleTimer));
+      events.forEach((ev) => window.removeEventListener(ev, reset));
       clearTimeout(idleTimer.current);
       clearTimeout(bubbleTimer.current);
     };
   }, []);
-
+  /*switch mascot*/
   useEffect(()=>{
     const switchTimer = setInterval(()=>{
       setMascotIndex((i) => (i+1) % MASCOT_IMAGES.length);
     }, MASCOT_SWITCH_INTERVAL);
     return() => clearInterval(switchTimer);
   }, []);
-
-  const handleClick = () => {
+  /*click mascot*/
+  const Click = () => {
     const msg = MESSAGES[Math.floor(Math.random() * MESSAGES.length)];
     setBubble(msg);
     clearTimeout(bubbleTimer.current);
@@ -52,7 +53,7 @@ function Mascot() {
   };
 
   return (
-    <div className="mascot-wrap" onClick={handleClick}>
+    <div className="mascot-wrap" onClick={Click}>
       {bubble && <div className="mascot-bubble">{bubble}</div>}
       <img
         src={MASCOT_IMAGES[mascotIndex]}

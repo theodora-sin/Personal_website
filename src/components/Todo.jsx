@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 
+/*different color */
 const PRIORITY_CONFIG = {
   low: { color: '#6ee7b7', label: 'Low' },
   medium: { color: '#fbbf24', label: 'Medium' },
@@ -9,7 +10,7 @@ const PRIORITY_CONFIG = {
 function Todo() {
   const [tasks, setTasks] = useState([]);
   const [input, setInput] = useState('');
-  const [priority, setPriority] = useState('medium');
+  const [priority, Priority] = useState('medium');
   const [priorityOpen, setPriorityOpen] = useState(false);
   const [dueDate, setDueDate] = useState('');
   const [filter, setFilter] = useState('all');
@@ -17,6 +18,7 @@ function Todo() {
   const [editingId, setEditingId] = useState(null);
   const [editText, setEditText] = useState('');
 
+  /*local Storage */
   useEffect(() => {
     const saved = localStorage.getItem('desktop-todos');
     if (saved) setTasks(JSON.parse(saved));
@@ -26,6 +28,7 @@ function Todo() {
     localStorage.setItem('desktop-todos', JSON.stringify(tasks));
   }, [tasks]);
 
+  /*add date */
   const addTask = () => {
     if (!input.trim()) return;
     setTasks([
@@ -47,12 +50,12 @@ function Todo() {
       return updated;
     });
   };
-
+  
   const deleteTask = (id) => {
     setTasks((prev) => prev.filter((t) => t.id !== id));
   };
 
-  const clearCompleted = () => {
+  const clear = () => {
     setTasks((prev) => prev.filter((t) => !t.done));
   };
 
@@ -61,6 +64,7 @@ function Todo() {
     setEditText(task.text);
   };
 
+  /*task save*/
   const saveEdit = (id) => {
     setTasks((prev) =>
       prev.map((t) => (t.id === id ? { ...t, text: editText.trim() || t.text } : t))
@@ -76,6 +80,7 @@ function Todo() {
   const doneCount = tasks.filter((t) => t.done).length;
   const progress = total === 0 ? 0 : Math.round((doneCount / total) * 100);
 
+  /*task filter*/
   const filteredTasks = tasks.filter((t) => {
     if (filter === 'all') return true;
     if (filter === 'active') return !t.done;
@@ -83,7 +88,7 @@ function Todo() {
     return t.priority === filter;
   });
 
-  const isOverdue = (dateStr, done) => {
+  const Overdue = (dateStr, done) => {
     if (!dateStr || done) return false;
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -130,7 +135,7 @@ return (
                 className="priority-dropdown-item"
                 style={{ color: PRIORITY_CONFIG[key].color }}
                 onClick={() => {
-                  setPriority(key);
+                  Priority(key);
                   setPriorityOpen(false);
                 }}
               >
@@ -196,7 +201,7 @@ return (
                 )}
 
                 {task.dueDate && (
-                  <span className={`due-date ${isOverdue(task.dueDate, task.done) ? 'overdue' : ''}`}>
+                  <span className={`due-date ${Overdue(task.dueDate, task.done) ? 'overdue' : ''}`}>
                     {new Date(task.dueDate).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
                   </span>
                 )}
@@ -217,7 +222,7 @@ return (
     )}
 
     {doneCount > 0 && (
-      <button className="clear-done-btn" onClick={clearCompleted}>
+      <button className="clear-done-btn" onClick={clear}>
         Clear completed
       </button>
     )}

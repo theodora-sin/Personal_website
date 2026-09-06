@@ -3,11 +3,12 @@ function DesktopSearch({apps, onOpenApp}) {
     const[isOpen, setIsOpen] = useState(false);
     const[query,setQuery] = useState('');
     const inputRef = useRef(null);
+/*timeout*/
     useEffect(()=>{
         if(isOpen) setTimeout(() => inputRef.current?.focus(),10);
     }, [isOpen]);
-
-    const getTodos = () =>{
+/*to do list*/
+    const Todo = () =>{
         try{
             const saved = localStorage.getItem('desktop-todos');
             return saved ? JSON.parse (saved) : [];
@@ -18,7 +19,7 @@ function DesktopSearch({apps, onOpenApp}) {
 
     const appResults = apps.filter((a) => a.label.toLowerCase().includes(query.toLowerCase()));
     const todoResults = query.trim()
-        ? getTodos().filter((t) => t.text.toLowerCase().includes(query.toLowerCase()))
+        ? Todo().filter((t) => t.text.toLowerCase().includes(query.toLowerCase()))
         : [];
 
     const handleClose =() =>{

@@ -5,6 +5,7 @@ function Weather() {
   const [error, setError] = useState(null);
   const [locationName, setLocationName] = useState('Your Location');
 
+  /*instant location*/
   useEffect(() => {
     if (!navigator.geolocation) {
       setError('Geolocation not supported by this browser');
@@ -22,6 +23,7 @@ function Weather() {
           const data = await res.json();
           setWeather(data.current);
         } catch (err) {
+          /*cannot find location*/
           setError('Could not fetch weather data');
           return;
         }
@@ -37,13 +39,14 @@ function Weather() {
             setLocationName(geoData.locality);
           }
         } catch (err) {
-          // keep "Your Location" fallback
+          /*cannot find location*/
         }
       },
       () => setError('Location permission denied')
     );
   }, []);
 
+  /*relate to rain % */
   const weatherEmoji = (code) => {
     if (code === 0) return '☀️';
     if (code <= 3) return '⛅';

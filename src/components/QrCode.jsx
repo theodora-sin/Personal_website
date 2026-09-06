@@ -2,7 +2,8 @@ import { useState, useEffect, useRef } from 'react';
 import QRCode from 'qrcode';
 
 function QrCode() {
-  const [text, setText] = useState('https://github.com/theodora-sin');
+/*website download sample*/
+  const [text, setText] = useState('https://www.google.com');
   const [error, setError] = useState(null);
   const canvasRef = useRef(null);
 
@@ -17,7 +18,8 @@ function QrCode() {
     });
   }, [text]);
 
-  const downloadPng = () => {
+  /*download*/
+  const download = () => {
     if (!canvasRef.current) return;
     const link = document.createElement('a');
     link.download = 'qr-code.png';
@@ -40,7 +42,7 @@ function QrCode() {
         <canvas ref={canvasRef} className="qr-canvas" />
       </div>
 
-      <button className="qr-download-btn" onClick={downloadPng}>Download PNG</button>
+      <button className="qr-download-btn" onClick={download}>Download PNG</button>
     </div>
   );
 }

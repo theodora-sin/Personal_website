@@ -21,7 +21,7 @@ function CommandPalette({ isOpen, onClose, commands }) {
     setSelectedIndex(0);
   }, [query]);
 
-  const handleKeyDown = (e) => {
+  const KeyDown = (e) => {
     if (e.key === 'Escape') onClose();
     if (e.key === 'ArrowDown') {
       e.preventDefault();
@@ -48,7 +48,7 @@ function CommandPalette({ isOpen, onClose, commands }) {
           placeholder="Type a command…"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          onKeyDown={handleKeyDown}
+          onKeyDown={KeyDown}
         />
         <ul className="palette-list">
           {filtered.length === 0 && <li className="palette-empty">No matching commands</li>}

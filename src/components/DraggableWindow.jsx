@@ -4,7 +4,7 @@ function DraggableWindow({
   title, onClose, onFocus, onMinimize, children,
   width = 420, height = null, zIndex = 10, cascadeIndex = 0, minimized = false,
   initialPosition = null, initialSize = null,
-  onPositionChange, onSizeChange,
+  PositionChange, onSizeChange,
 }) {
   const [position, setPosition] = useState(initialPosition || { x: null, y: null });
   const [size, setSize] = useState(initialSize || { width, height });
@@ -28,7 +28,7 @@ function DraggableWindow({
         const next = { x: clampedX, y: clampedY };
         setPosition(next);
         latestPosition.current = next;
-        if (onPositionChange) onPositionChange(next);
+        if (PositionChange) PositionChange(next);
       }
     }
   }, []);
@@ -53,7 +53,7 @@ function DraggableWindow({
     dragging.current = false;
     document.removeEventListener('mousemove', onMouseMove);
     document.removeEventListener('mouseup', onMouseUp);
-    if (onPositionChange) onPositionChange(latestPosition.current);
+    if (PositionChange) onPositionChange(latestPosition.current);
   };
 
   const onResizeMouseDown = (e) => {

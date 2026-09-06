@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import WorldClockStrip from "./WorldClockStrip";
+import WorldClock from "./WorldClock";
 
 function WorldClockWindow(){
     const[isOpen, setIsOpen] = useState(false);
@@ -17,7 +17,7 @@ function WorldClockWindow(){
               <button className="modal-close" onClick={() => setIsOpen(false)}>✕</button>
             </div>
             <div className="modal-body">
-              <WorldClockStrip />
+              <WorldClock />
             </div>
           </div>
         </div>

@@ -1,4 +1,5 @@
 import {useState, useEffect} from 'react';
+/*local clock*/
 function Clock(){
     const [time, setTime] = useState(new Date());
 

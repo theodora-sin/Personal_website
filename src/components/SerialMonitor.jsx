@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 
+/*sensors*/
 const SENSORS = [
   { key: 'temp', label: 'TEMP', unit: '°C', min: 35, max: 70, decimals: 1 },
   { key: 'cpu', label: 'CPU', unit: '%', min: 5, max: 95, decimals: 0 },
@@ -7,7 +8,8 @@ const SENSORS = [
   { key: 'mem', label: 'MEM', unit: '%', min: 20, max: 85, decimals: 0 },
 ];
 
-const EVENT_MESSAGES = [
+/*serial monitor messages*/
+const MESSAGES = [
   { level: 'info', text: 'Heartbeat OK' },
   { level: 'info', text: 'Cache cleared' },
   { level: 'info', text: 'Connection re-established' },
@@ -25,7 +27,7 @@ function randomInRange(min, max, decimals) {
   return val.toFixed(decimals);
 }
 
-function timestamp() {
+function time() {
   const d = new Date();
   return d.toTimeString().split(' ')[0] + '.' + String(d.getMilliseconds()).padStart(3, '0');
 }
@@ -43,7 +45,7 @@ function SerialMonitor() {
   const [readings, setReadings] = useState(() =>
     SENSORS.reduce((acc, s) => ({ ...acc, [s.key]: randomInRange(s.min, s.max, s.decimals) }), {})
   );
-  const [sparkData, setSparkData] = useState([]);
+  const [Data, setData] = useState([]);
   const [uptime, setUptime] = useState(0);
   const scrollRef = useRef(null);
   const lineId = useRef(0);
@@ -70,10 +72,10 @@ function SerialMonitor() {
         addLine('info', `${metric.label}=${value}${metric.unit}`);
 
         if (metric.key === SPARK_METRIC) {
-          setSparkData((prev) => [...prev.slice(-(SPARK_MAX_POINTS - 1)), parseFloat(value)]);
+          setData((prev) => [...prev.slice(-(SPARK_MAX_POINTS - 1)), parseFloat(value)]);
         }
       } else {
-        const event = EVENT_MESSAGES[Math.floor(Math.random() * EVENT_MESSAGES.length)];
+        const event = MESSAGES[Math.floor(Math.random() * MESSAGES.length)];
         addLine(event.level, event.text);
       }
     }, 450);
@@ -88,6 +90,7 @@ function SerialMonitor() {
 
   const clearLog = () => setLines([]);
 
+  /*export*/
   const exportLog = () => {
     const content = lines.map((l) => `[${l.level.toUpperCase()}] ${l.text}`).join('\n');
     const blob = new Blob([content], { type: 'text/plain' });
@@ -99,11 +102,11 @@ function SerialMonitor() {
     URL.revokeObjectURL(url);
   };
 
-  const sparkWidth = 260;
-  const sparkHeight = 40;
-  const sparkPoints = sparkData.map((val, i) => {
-    const x = (i / (SPARK_MAX_POINTS - 1)) * sparkWidth;
-    const y = sparkHeight - (val / 100) * sparkHeight;
+  const Width = 260;
+  const Height = 40;
+  const Points = Data.map((val, i) => {
+    const x = (i / (SPARK_MAX_POINTS - 1)) * Width;
+    const y = Height - (val / 100) * Height;
     return `${x},${y}`;
   }).join(' ');
 
@@ -127,9 +130,9 @@ function SerialMonitor() {
 
       <div className="serial-spark-wrap">
         <div className="serial-spark-label">CPU trend</div>
-        <svg viewBox={`0 0 ${sparkWidth} ${sparkHeight}`} className="serial-spark-svg" preserveAspectRatio="none">
-          {sparkData.length > 1 && (
-            <polyline points={sparkPoints} fill="none" stroke="#6ee7b7" strokeWidth="2" />
+        <svg viewBox={`0 0 ${Width} ${Height}`} className="serial-spark-svg" preserveAspectRatio="none">
+          {Data.length > 1 && (
+            <polyline points={Points} fill="none" stroke="#6ee7b7" strokeWidth="2" />
           )}
         </svg>
       </div>

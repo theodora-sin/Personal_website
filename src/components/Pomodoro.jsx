@@ -6,19 +6,20 @@ const MODES = {
   long: { label: 'Long Break', minutes: 15, color: '#93c5fd' },
 };
 
+  /*date*/
 const todayKey = () => {
   const d = new Date();
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 };
-
-function formatDuration(totalSeconds) {
+  /*time*/
+function Duration(totalSeconds) {
   const hrs = Math.floor(totalSeconds / 3600);
   const mins = Math.floor((totalSeconds % 3600) / 60);
   if (hrs === 0) return `${mins}m`;
   return `${hrs}h ${mins}m`;
 }
 
-function formatDateLabel(key) {
+function Date(key) {
   const [y, m, d] = key.split('-').map(Number);
   const date = new Date(y, m - 1, d);
   const today = todayKey();
@@ -51,7 +52,8 @@ function Pomodoro() {
     });
   };
 
-  const logSessionComplete = () => {
+  /*log sessions*/
+  const logSession = () => {
     const key = todayKey();
     setHistory((prev) => {
       const day = prev[key] || { focusSeconds: 0, sessions: 0 };
@@ -67,7 +69,7 @@ function Pomodoro() {
           if (s <= 1) {
             clearInterval(intervalRef.current);
             setRunning(false);
-            if (mode === 'focus') logSessionComplete();
+            if (mode === 'focus') logSession();
             return 0;
           }
           return s - 1;
@@ -127,9 +129,9 @@ function Pomodoro() {
             const day = history[key];
             return (
               <div key={key} className="pomo-history-item">
-                <span className="pomo-history-date">{formatDateLabel(key)}</span>
+                <span className="pomo-history-date">{Date(key)}</span>
                 <span className="pomo-history-stats">
-                  {formatDuration(day.focusSeconds)} · {day.sessions} session{day.sessions !== 1 ? 's' : ''}
+                  {Duration(day.focusSeconds)} · {day.sessions} session{day.sessions !== 1 ? 's' : ''}
                 </span>
               </div>
             );
@@ -165,7 +167,7 @@ function Pomodoro() {
           </div>
 
           <div className="pomo-sessions">
-            🍅 {formatDuration(today.focusSeconds)} focused today · {today.sessions} session{today.sessions !== 1 ? 's' : ''}
+            🍅 {Duration(today.focusSeconds)} focused today · {today.sessions} session{today.sessions !== 1 ? 's' : ''}
           </div>
         </>
       )}

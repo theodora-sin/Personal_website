@@ -1,5 +1,6 @@
 import { useState } from 'react';
 
+/*3data*/
 const CATEGORIES = {
   length: {
     label: 'Length',
@@ -15,6 +16,7 @@ const CATEGORIES = {
   },
 };
 
+/*temperature converter*/
 function convertTemp(value, from, to) {
   let celsius;
   if (from === 'C') celsius = value;
