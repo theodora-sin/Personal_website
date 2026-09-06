@@ -599,7 +599,7 @@
   overflow-x: auto;
   white-space: nowrap;
 }
-.calc-grid { gap: 8px; }
+.calc-grid { gap: 12px; }
 .calc-btn {
   background: #292c38;
   border: 1px solid #292c38;
