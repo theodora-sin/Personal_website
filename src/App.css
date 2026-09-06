@@ -375,16 +375,15 @@
 }
 /* Playlist*/
 .playlist-card { width: min(360px, 92vw); }
-.playlist-body { padding: 0; }
-.playlist-body iframe { border-radius: 0 0 18px 18px; display: block; }
-.playlist-error { padding: 40px 20px; text-align: center; color: #a2a7b6; font-size: 0.9rem; }
+.playlist-body iframe { border-radius: 0 0 16px 16px; display: block; }
+.playlist-error { padding: 50px 30px; text-align: center; color: #a2a7b6; font-size: 15px; }
 /* Window */
 .draggable-window {
   position: fixed;
   background: #1c1f2a;
-  border: 1px solid #292c38;
+  border: 1px solid #292c36;
   border-radius: 16px;
-  box-shadow: 0 30px 80px #07090d;
+  box-shadow: 0 40px 80px #07090d;
   max-height: 85vh;
   display: flex;
   flex-direction: column;
@@ -394,8 +393,8 @@
   position: absolute;
   bottom: 0;
   right: 0;
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   cursor: se-resize;
   display: flex;
   align-items: flex-end;
@@ -425,11 +424,11 @@
   height: 26px;
   border-radius: 7px;
   cursor: pointer;
-  font-size: 0.9rem;
+  font-size: 15px;
 }
 .window-minimize:hover { background: #3b3e4c; }
 .window-close {
-  background: #292c38;
+  background: #292c36;
   border: none;
   color: white;
   width: 26px;
@@ -437,7 +436,7 @@
   border-radius: 7px;
   cursor: pointer;
 }
-.window-close:hover { background: #3b3e4c; }
+.window-close:hover { background: #3b3e4d; }
 @keyframes popIn {
   from { opacity: 0; transform: translate(-50%, -46%) scale(0.94); }
   to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
@@ -452,16 +451,16 @@
   z-index: 50;
 }
 .taskbar-chip {
-  background: #292c38;
-  border: 1px solid #292c38;
+  background: #292c36;
+  border: 1px solid #292c36;
   color: white;
-  font-size: 0.8rem;
+  font-size:14px;
   padding: 8px 16px;
   border-radius: 20px;
   cursor: pointer;
   transition: background 0.2s;
 }
-.taskbar-chip:hover { background: #3b3e4c; }
+.taskbar-chip:hover { background: #3b3e4d; }
 
 /*Project*/
 .projects-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
