@@ -1,10 +1,6 @@
 /* Simple colour palette */
 :root {
   --background: #11131a;
-  --panel: #1c1f2a;
-  --panel-light: #252834;
-  --input: #292c38;
-  --border: #353949;
   --text: #f2f3f7;
   --muted: #a7adbd;
   --accent: #a8c9ff;
